@@ -74,10 +74,10 @@ const askQuestion4 = async () => {
                 reject('Please fill the age');
                 return;
             } else if (isNaN(ageAsNumber)) {
-                reject('Please write your age with numbers.');
+                reject('Please write your age with numbers');
                 return;
             } else if (ageAsNumber < 0) {
-                reject('You can not have an age less than 0');
+                reject('You cannot have an age less than 0');
                 return;
             } else {
                 accessSync(filePath);
