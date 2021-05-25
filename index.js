@@ -1,13 +1,12 @@
-import { accessSync, readFile, readFileSync, writeFileSync } from 'fs';
+import { accessSync, readFileSync, writeFileSync } from 'fs';
 
 import readline from 'readline';
 
-const rl = readline.createInterface( {
+const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
 });
 
-const filePath = `${process.cwd()}/dataStorage.json`;
 
 const askQuestion1 = async () => {
     return new Promise((fulfil, reject) => {
@@ -16,12 +15,6 @@ const askQuestion1 = async () => {
                 console.log('Please fill the first name');
                 reject('Please fill the first name');
                 return;
-            } else {
-                accessSync(filePath);
-                const jsonObject = readFileSync(filePath, 'utf8');
-                const decodedObject = JSON.parse(jsonObject);
-                decodedObject.firstName = firstName;
-                writeFileSync(filePath, JSON.stringify(decodedObject));
             }
 
             fulfil(firstName);
@@ -35,13 +28,7 @@ const askQuestion2 = async () => {
             if (lastName === '') {
                 reject('Please fill the last name');
                 return;
-            } else {
-                accessSync(filePath);
-                const jsonObject = readFileSync(filePath, 'utf8');
-                const decodedObject = JSON.parse(jsonObject);
-                decodedObject.lastName = lastName;
-                writeFileSync(filePath, JSON.stringify(decodedObject));
-            }
+            } 
 
             fulfil(lastName);
         })
@@ -54,12 +41,6 @@ const askQuestion3 = async () => {
             if (email === '') {
                 reject('Please fill the email');
                 return;
-            } else {
-                accessSync(filePath);
-                const jsonObject = readFileSync(filePath, 'utf8');
-                const decodedObject = JSON.parse(jsonObject);
-                decodedObject.email = email;
-                writeFileSync(filePath, JSON.stringify(decodedObject));
             }
 
             fulfil(email);
@@ -79,15 +60,9 @@ const askQuestion4 = async () => {
             } else if (ageAsNumber < 0) {
                 reject('You cannot have an age less than 0');
                 return;
-            } else {
-                accessSync(filePath);
-                const jsonObject = readFileSync(filePath, 'utf8');
-                const decodedObject = JSON.parse(jsonObject);
-                decodedObject.age = ageAsNumber;
-                writeFileSync(filePath, JSON.stringify(decodedObject));
-            }
+            } 
 
-            fulfil(age);
+            fulfil(ageAsNumber);
         })
     });
 }
@@ -98,13 +73,7 @@ const askQuestion5 = async () => {
             if (address === '') {
                 reject('Please fill the address');
                 return;
-            } else {
-                accessSync(filePath);
-                const jsonObject = readFileSync(filePath, 'utf8');
-                const decodedObject = JSON.parse(jsonObject);
-                decodedObject.address = address;
-                writeFileSync(filePath, JSON.stringify(decodedObject));
-            }
+            } 
 
             fulfil(address);
         })
@@ -117,6 +86,18 @@ try {
     const email = await askQuestion3();
     const age = await askQuestion4();
     const address = await askQuestion5();
+
+    const person = {
+        firstName, // same thing as firstName: firstName,
+        lastName,
+        email,
+        age,
+        address
+    }
+
+    const filePath = `${process.cwd()}/dataStorage.json`;
+    accessSync(filePath);
+    writeFileSync(filePath, JSON.stringify(person));
 
     console.log(`Your data is: first name: ${firstName}, last name: ${lastName}, email: ${email}, age: ${age}, address: ${address}.`)
 
